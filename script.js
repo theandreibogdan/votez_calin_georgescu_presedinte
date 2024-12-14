@@ -95,6 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
         cropperDiv.classList.add('hidden');
         mainContainer.classList.remove('hidden');
         resultContainer.classList.remove('hidden');
+        document.getElementById('initialContent').classList.add('hidden');
     });
 
     downloadBtn.addEventListener('click', () => {
@@ -103,5 +104,11 @@ document.addEventListener('DOMContentLoaded', function() {
         link.download = 'processed-image.png';
         link.href = finalCanvas.toDataURL('image/png');
         link.click();
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+        document.getElementById('initialContent').classList.remove('hidden');
+        resultContainer.classList.add('hidden');
+        imageInput.value = ''; // Reset file input
     });
 }); 
