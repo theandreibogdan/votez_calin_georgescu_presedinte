@@ -119,12 +119,48 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('initialContent').classList.add('hidden');
     });
 
-    downloadBtn.addEventListener('click', () => {
-        // Create a temporary link
-        const link = document.createElement('a');
-        link.download = 'processed-image.png';
-        link.href = finalCanvas.toDataURL('image/png');
-        link.click();
+    downloadBtn.addEventListener('click', async () => {
+        const button = document.getElementById('downloadBtn');
+        const buttonText = button.innerHTML;
+        
+        try {
+            // Show loading state
+            button.classList.add('button-disabled');
+            button.innerHTML = `<i class="fas fa-spinner spinner mr-2"></i>Se descarca...`;
+            
+            // Get the canvas data
+            const dataUrl = finalCanvas.toDataURL('image/png');
+            
+            // For iOS devices
+            if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+                // Open image in new tab
+                window.open(dataUrl);
+            } else {
+                // For other devices, use the download link method
+                const link = document.createElement('a');
+                link.download = 'votez-calin-georgescu.png';
+                link.href = dataUrl;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+            
+            // Show success message
+            button.innerHTML = `<i class="fas fa-check mr-2"></i>Descarcat cu succes!`;
+            setTimeout(() => {
+                button.innerHTML = buttonText;
+                button.classList.remove('button-disabled');
+            }, 2000);
+            
+        } catch (error) {
+            console.error('Download failed:', error);
+            // Show error message
+            button.innerHTML = `<i class="fas fa-exclamation-triangle mr-2"></i>Eroare la descarcare`;
+            setTimeout(() => {
+                button.innerHTML = buttonText;
+                button.classList.remove('button-disabled');
+            }, 2000);
+        }
     });
 
     document.getElementById('resetBtn').addEventListener('click', () => {
