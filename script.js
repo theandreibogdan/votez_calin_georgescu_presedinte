@@ -133,8 +133,30 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // For iOS devices
             if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-                // Open image in new tab
-                window.open(dataUrl);
+                // Create a temporary link
+                const link = document.createElement('a');
+                link.href = dataUrl;
+                link.download = 'votez-calin-georgescu.png';
+                
+                // Try multiple approaches for iOS
+                if (navigator.share) {
+                    // If Web Share API is available, use it
+                    const blob = await (await fetch(dataUrl)).blob();
+                    const file = new File([blob], 'votez-calin-georgescu.png', { type: 'image/png' });
+                    
+                    try {
+                        await navigator.share({
+                            files: [file],
+                            title: 'Descarca Imaginea'
+                        });
+                    } catch (shareError) {
+                        // Fallback to opening in new tab if sharing fails
+                        window.open(dataUrl, '_blank');
+                    }
+                } else {
+                    // Fallback to opening in new tab
+                    window.open(dataUrl, '_blank');
+                }
             } else {
                 // For other devices, use the download link method
                 const link = document.createElement('a');
