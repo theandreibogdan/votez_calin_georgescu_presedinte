@@ -65,38 +65,22 @@ document.addEventListener('DOMContentLoaded', function() {
     confirmCropBtn.addEventListener('click', () => {
         if (!cropper) return;
 
-        // Get crop data and canvas data
-        const cropData = cropper.getData();
-        const canvasData = cropper.getCanvasData();
-        
-        // Calculate the ratio between original image and cropper canvas
-        const scaleX = originalImage.naturalWidth / canvasData.width;
-        const scaleY = originalImage.naturalHeight / canvasData.height;
-        
-        // Use consistent size for output (e.g., 1080px for social media)
         const outputSize = 1080;
         finalCanvas.width = outputSize;
         finalCanvas.height = outputSize;
         
         const ctx = finalCanvas.getContext('2d');
         
-        // Clear the canvas
-        ctx.clearRect(0, 0, outputSize, outputSize);
+        // Get the cropped canvas directly from cropper.js
+        const croppedCanvas = cropper.getCroppedCanvas({
+            width: outputSize,
+            height: outputSize
+        });
         
-        // Draw cropped image maintaining aspect ratio
-        ctx.drawImage(
-            originalImage,
-            cropData.x * scaleX,
-            cropData.y * scaleY,
-            cropData.width * scaleX,
-            cropData.height * scaleY,
-            0,
-            0,
-            outputSize,
-            outputSize
-        );
-
-        // Draw overlay at the same size
+        // Draw the cropped image
+        ctx.drawImage(croppedCanvas, 0, 0, outputSize, outputSize);
+        
+        // Draw overlay
         ctx.drawImage(overlayImage, 0, 0, outputSize, outputSize);
 
         // Show result
@@ -104,9 +88,6 @@ document.addEventListener('DOMContentLoaded', function() {
         mainContainer.classList.remove('hidden');
         resultContainer.classList.remove('hidden');
         document.getElementById('initialContent').classList.add('hidden');
-
-        // Add confetti effect
-        celebrateSuccess();
     });
 
     downloadBtn.addEventListener('click', () => {
