@@ -10,72 +10,100 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-gray-100 min-h-screen p-4">
-    <div id="mainContainer" class="max-w-md mx-auto">
-        <h1 class="text-2xl font-bold text-center mb-12">Votez Calin Georgescu</h1>
+<body class="bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen p-4 sm:p-6">
+    <div id="mainContainer" class="max-w-md mx-auto bg-white rounded-xl shadow-sm p-6 space-y-8">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Votez Calin Georgescu</h1>
         
-        <div class="my-32 flex items-center justify-center gap-4">
-            <div class="relative w-32 h-32 transform -rotate-6 transition-transform hover:rotate-0">
+        <!-- Before/After comparison -->
+        <div class="my-16 flex items-center justify-center gap-6">
+            <div class="relative w-36 h-36 transform -rotate-6 transition-all duration-300 hover:rotate-0 hover:scale-105">
                 <img 
                     src="before.jpeg" 
                     alt="Before" 
-                    class="w-full h-full object-cover rounded-lg shadow-lg"
+                    class="w-full h-full object-cover rounded-xl shadow-lg"
                 >
-                <span class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-2 py-1 rounded text-sm">
+                <span class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-3 py-1 rounded-full text-sm font-medium">
                     Inainte
                 </span>
             </div>
 
             <div class="text-3xl text-blue-500 transform translate-y-[-0.5rem]">
-                <i class="fas fa-arrow-right"></i>
+                <i class="fas fa-arrow-right animate-pulse"></i>
             </div>
 
-            <div class="relative w-32 h-32 transform rotate-6 transition-transform hover:rotate-0">
+            <div class="relative w-36 h-36 transform rotate-6 transition-all duration-300 hover:rotate-0 hover:scale-105">
                 <img 
                     src="after.png" 
                     alt="After" 
-                    class="w-full h-full object-cover rounded-lg shadow-lg"
+                    class="w-full h-full object-cover rounded-xl shadow-lg"
                 >
-                <span class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-2 py-1 rounded text-sm">
+                <span class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-3 py-1 rounded-full text-sm font-medium">
                     Dupa
                 </span>
             </div>
         </div>
         
-        <div class="space-y-4 mt-8">
-            <input type="file" 
-                   id="imageInput" 
-                   accept="image/*" 
-                   class="w-full p-2 border rounded">
+        <!-- Upload section -->
+        <div class="space-y-4">
+            <label class="block w-full">
+                <span class="sr-only">Choose file</span>
+                <input type="file" 
+                       id="imageInput" 
+                       accept="image/*" 
+                       class="block w-full text-sm text-gray-500
+                              file:mr-4 file:py-2 file:px-4
+                              file:rounded-full file:border-0
+                              file:text-sm file:font-semibold
+                              file:bg-blue-50 file:text-blue-700
+                              hover:file:bg-blue-100
+                              cursor-pointer">
+            </label>
             
             <button id="uploadBtn" 
-                    class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 disabled:bg-gray-400">
+                    class="w-full bg-blue-500 text-white py-3 px-4 rounded-lg hover:bg-blue-600 
+                           disabled:bg-gray-400 transition-colors duration-200 font-medium
+                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                <i class="fas fa-upload mr-2"></i>
                 Upload Image
             </button>
         </div>
 
+        <!-- Result section -->
         <div id="resultContainer" class="hidden mt-4 relative space-y-4">
-            <canvas id="finalCanvas" class="w-full"></canvas>
+            <canvas id="finalCanvas" class="w-full rounded-lg shadow-md"></canvas>
             <button id="downloadBtn" 
-                    class="w-full bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-600">
+                    class="w-full bg-purple-500 text-white py-3 px-4 rounded-lg hover:bg-purple-600 
+                           transition-colors duration-200 font-medium
+                           focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+                <i class="fas fa-download mr-2"></i>
                 Download Image
             </button>
         </div>
+
+        <!-- Attribution -->
+        <p class="text-center text-sm text-black opacity-25 mt-8">
+            Facuta de un voluntar
+        </p>
     </div>
 
-    <div id="cropperDiv" class="fixed inset-0 bg-white z-50 p-4 hidden">
-        <div class="max-w-md mx-auto h-full flex flex-col">
+    <!-- Cropper modal -->
+    <div id="cropperDiv" class="fixed inset-0 bg-gray-900/75 backdrop-blur-sm z-50 p-4 hidden">
+        <div class="max-w-md mx-auto h-full flex flex-col bg-white rounded-2xl p-6">
             <h2 class="text-xl font-bold text-center mb-4">Crop Your Image</h2>
             <div class="flex-grow relative">
                 <img id="imageToEdit" class="max-w-full">
             </div>
             <div class="mt-4 space-y-2">
                 <button id="confirmCrop" 
-                        class="w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">
+                        class="w-full bg-green-500 text-white py-3 px-4 rounded-lg hover:bg-green-600 
+                               transition-colors duration-200 font-medium">
+                    <i class="fas fa-check mr-2"></i>
                     Confirm Crop
                 </button>
                 <button id="cancelCrop" 
-                        class="w-full bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">
+                        class="w-full bg-red-500 text-white py-3 px-4 rounded-lg hover:bg-red-600 
+                               transition-colors duration-200 font-medium">
+                    <i class="fas fa-times mr-2"></i>
                     Cancel
                 </button>
             </div>
