@@ -45,24 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     aspectRatio: 1,
                     viewMode: 1,
                     responsive: true,
-                    background: false,
-                    ready: function() {
-                        // Get image data
-                        const imageData = cropper.getImageData();
-                        const minDimension = Math.min(imageData.width, imageData.height);
-                        
-                        // Calculate the initial crop box position
-                        const left = (imageData.width - minDimension) / 2;
-                        const top = (imageData.height - minDimension) / 2;
-                        
-                        // Set the crop box to be a square with the maximum possible size
-                        cropper.setCropBoxData({
-                            left: left,
-                            top: top,
-                            width: minDimension,
-                            height: minDimension
-                        });
-                    }
+                    background: false
                 });
             };
 
