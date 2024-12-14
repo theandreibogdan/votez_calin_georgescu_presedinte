@@ -1,0 +1,17 @@
+.cropper-container {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 500px;
+}
+
+#finalCanvas {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Mobile optimization */
+@media (max-width: 640px) {
+    .cropper-container {
+        max-height: 300px;
+    }
+} 
