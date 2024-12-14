@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let cropper = null;
     let originalImage = null;
-    const flagImage = new Image();
-    flagImage.src = 'flag.jpg';
+    const overlayImage = new Image();
+    overlayImage.src = 'overlay.png';
 
     uploadBtn.addEventListener('click', () => {
         imageInput.click();
@@ -88,10 +88,8 @@ document.addEventListener('DOMContentLoaded', function() {
             size
         );
 
-        // Draw flag with 50% opacity
-        ctx.globalAlpha = 0.5;
-        ctx.drawImage(flagImage, 0, 0, size, size);
-        ctx.globalAlpha = 1.0;
+        // Draw overlay with full opacity
+        ctx.drawImage(overlayImage, 0, 0, size, size);
 
         // Show result
         cropperDiv.classList.add('hidden');
