@@ -98,12 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('initialContent').classList.add('hidden');
 
         // Add confetti effect
-        confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.6 },
-            colors: ['#1d4ed8', '#3b82f6', '#60a5fa', '#93c5fd', '#bfdbfe']
-        });
+        celebrateSuccess();
     });
 
     downloadBtn.addEventListener('click', () => {
@@ -119,4 +114,34 @@ document.addEventListener('DOMContentLoaded', function() {
         resultContainer.classList.add('hidden');
         imageInput.value = ''; // Reset file input
     });
+
+    // Function to create multiple confetti bursts
+    function celebrateSuccess() {
+        // First burst from the middle
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+
+        // Left side burst
+        setTimeout(() => {
+            confetti({
+                particleCount: 50,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 }
+            });
+        }, 250);
+
+        // Right side burst
+        setTimeout(() => {
+            confetti({
+                particleCount: 50,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 }
+            });
+        }, 400);
+    }
 }); 
