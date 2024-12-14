@@ -65,31 +65,39 @@ document.addEventListener('DOMContentLoaded', function() {
     confirmCropBtn.addEventListener('click', () => {
         if (!cropper) return;
 
-        // Get crop data
+        // Get crop data and canvas data
         const cropData = cropper.getData();
-        const ratio = originalImage.naturalWidth / cropper.getImageData().naturalWidth;
-
-        // Create high-res canvas
-        const size = Math.max(cropData.width, cropData.height) * ratio;
-        finalCanvas.width = size;
-        finalCanvas.height = size;
+        const canvasData = cropper.getCanvasData();
+        
+        // Calculate the ratio between original image and cropper canvas
+        const scaleX = originalImage.naturalWidth / canvasData.width;
+        const scaleY = originalImage.naturalHeight / canvasData.height;
+        
+        // Use consistent size for output (e.g., 1080px for social media)
+        const outputSize = 1080;
+        finalCanvas.width = outputSize;
+        finalCanvas.height = outputSize;
+        
         const ctx = finalCanvas.getContext('2d');
-
-        // Draw cropped image at high resolution
+        
+        // Clear the canvas
+        ctx.clearRect(0, 0, outputSize, outputSize);
+        
+        // Draw cropped image maintaining aspect ratio
         ctx.drawImage(
             originalImage,
-            cropData.x * ratio,
-            cropData.y * ratio,
-            cropData.width * ratio,
-            cropData.height * ratio,
+            cropData.x * scaleX,
+            cropData.y * scaleY,
+            cropData.width * scaleX,
+            cropData.height * scaleY,
             0,
             0,
-            size,
-            size
+            outputSize,
+            outputSize
         );
 
-        // Draw overlay with full opacity
-        ctx.drawImage(overlayImage, 0, 0, size, size);
+        // Draw overlay at the same size
+        ctx.drawImage(overlayImage, 0, 0, outputSize, outputSize);
 
         // Show result
         cropperDiv.classList.add('hidden');
