@@ -96,6 +96,14 @@ document.addEventListener('DOMContentLoaded', function() {
         mainContainer.classList.remove('hidden');
         resultContainer.classList.remove('hidden');
         document.getElementById('initialContent').classList.add('hidden');
+
+        // Add confetti effect
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ['#1d4ed8', '#3b82f6', '#60a5fa', '#93c5fd', '#bfdbfe']
+        });
     });
 
     downloadBtn.addEventListener('click', () => {
