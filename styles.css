@@ -1,7 +1,14 @@
 .cropper-container {
     width: 100% !important;
-    height: auto !important;
-    max-height: 500px;
+    height: 100% !important;
+}
+
+#cropperDiv .cropper-container {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 #finalCanvas {
@@ -11,7 +18,7 @@
 
 /* Mobile optimization */
 @media (max-width: 640px) {
-    .cropper-container {
-        max-height: 300px;
+    #cropperDiv {
+        padding: 1rem;
     }
 } 

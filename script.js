@@ -1,15 +1,19 @@
 document.addEventListener('DOMContentLoaded', function() {
     const imageInput = document.getElementById('imageInput');
     const uploadBtn = document.getElementById('uploadBtn');
-    const cropperContainer = document.getElementById('cropperContainer');
+    const cropperDiv = document.getElementById('cropperDiv');
+    const mainContainer = document.getElementById('mainContainer');
     const imageToEdit = document.getElementById('imageToEdit');
     const confirmCropBtn = document.getElementById('confirmCrop');
+    const cancelCropBtn = document.getElementById('cancelCrop');
     const resultContainer = document.getElementById('resultContainer');
     const finalCanvas = document.getElementById('finalCanvas');
+    const downloadBtn = document.getElementById('downloadBtn');
 
     let cropper = null;
+    let originalImage = null;
     const flagImage = new Image();
-    flagImage.src = 'flag.jpg'; // Make sure to have flag.jpg in the same directory
+    flagImage.src = 'flag.jpg';
 
     uploadBtn.addEventListener('click', () => {
         imageInput.click();
@@ -21,9 +25,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const reader = new FileReader();
 
             reader.onload = function(e) {
-                // Show cropper container
-                cropperContainer.classList.remove('hidden');
-                resultContainer.classList.add('hidden');
+                // Store original image for high-res processing
+                originalImage = new Image();
+                originalImage.src = e.target.result;
+                
+                // Show cropper
+                cropperDiv.classList.remove('hidden');
+                mainContainer.classList.add('hidden');
                 
                 // Set image source
                 imageToEdit.src = e.target.result;
@@ -45,30 +53,57 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    cancelCropBtn.addEventListener('click', () => {
+        cropperDiv.classList.add('hidden');
+        mainContainer.classList.remove('hidden');
+        if (cropper) {
+            cropper.destroy();
+            cropper = null;
+        }
+    });
+
     confirmCropBtn.addEventListener('click', () => {
         if (!cropper) return;
 
-        // Get cropped canvas
-        const croppedCanvas = cropper.getCroppedCanvas({
-            width: 500,  // Fixed size for consistency
-            height: 500
-        });
+        // Get crop data
+        const cropData = cropper.getData();
+        const ratio = originalImage.naturalWidth / cropper.getImageData().naturalWidth;
 
-        // Create final canvas
-        finalCanvas.width = 500;
-        finalCanvas.height = 500;
+        // Create high-res canvas
+        const size = Math.max(cropData.width, cropData.height) * ratio;
+        finalCanvas.width = size;
+        finalCanvas.height = size;
         const ctx = finalCanvas.getContext('2d');
 
-        // Draw cropped image
-        ctx.drawImage(croppedCanvas, 0, 0);
+        // Draw cropped image at high resolution
+        ctx.drawImage(
+            originalImage,
+            cropData.x * ratio,
+            cropData.y * ratio,
+            cropData.width * ratio,
+            cropData.height * ratio,
+            0,
+            0,
+            size,
+            size
+        );
 
         // Draw flag with 50% opacity
         ctx.globalAlpha = 0.5;
-        ctx.drawImage(flagImage, 0, 0, 500, 500);
+        ctx.drawImage(flagImage, 0, 0, size, size);
         ctx.globalAlpha = 1.0;
 
         // Show result
-        cropperContainer.classList.add('hidden');
+        cropperDiv.classList.add('hidden');
+        mainContainer.classList.remove('hidden');
         resultContainer.classList.remove('hidden');
+    });
+
+    downloadBtn.addEventListener('click', () => {
+        // Create a temporary link
+        const link = document.createElement('a');
+        link.download = 'processed-image.png';
+        link.href = finalCanvas.toDataURL('image/png');
+        link.click();
     });
 }); 
