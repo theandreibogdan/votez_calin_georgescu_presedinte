@@ -15,73 +15,85 @@
         <h1 class="text-3xl font-bold text-center text-gray-800">Votez Calin Georgescu</h1>
         <p class="text-center text-md max-w-[350px] flex justify-center items-center text-black opacity-25 !mt-[4px] mb-6 mx-auto">Filtru de imageine de profil pentru sustinatorii lui Calin Georgescu</p>
         
-        <!-- Before/After comparison -->
-        <div class="my-48 py-8 flex items-center justify-center gap-6">
-            <div class="relative w-36 h-36 transform -rotate-6 transition-all duration-300 hover:rotate-0 hover:scale-105">
-                <img 
-                    src="before.jpeg" 
-                    alt="Before" 
-                    class="w-full h-full object-cover rounded-xl shadow-lg"
-                >
-                <span class="absolute -bottom-12 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    Inainte
-                </span>
-            </div>
+        <!-- Initial content -->
+        <div id="initialContent">
+            <!-- Before/After comparison -->
+            <div class="my-48 py-8 flex items-center justify-center gap-6">
+                <div class="relative w-36 h-36 transform -rotate-6 transition-all duration-300 hover:rotate-0 hover:scale-105">
+                    <img 
+                        src="before.jpeg" 
+                        alt="Before" 
+                        class="w-full h-full object-cover rounded-xl shadow-lg"
+                    >
+                    <span class="absolute -bottom-12 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-3 py-1 rounded-full text-sm font-medium">
+                        Inainte
+                    </span>
+                </div>
 
-            <div class="text-3xl text-blue-500 transform translate-y-[-0.5rem]">
-                <i class="fas fa-arrow-right animate-pulse"></i>
-            </div>
+                <div class="text-3xl text-blue-500 transform translate-y-[-0.5rem]">
+                    <i class="fas fa-arrow-right animate-pulse"></i>
+                </div>
 
-            <div class="relative w-36 h-36 transform rotate-6 transition-all duration-300 hover:rotate-0 hover:scale-105">
-                <img 
-                    src="after.png" 
-                    alt="After" 
-                    class="w-full h-full object-cover rounded-xl shadow-lg"
-                >
-                <span class="absolute -bottom-12 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    Dupa
-                </span>
+                <div class="relative w-36 h-36 transform rotate-6 transition-all duration-300 hover:rotate-0 hover:scale-105">
+                    <img 
+                        src="after.png" 
+                        alt="After" 
+                        class="w-full h-full object-cover rounded-xl shadow-lg"
+                    >
+                    <span class="absolute -bottom-12 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-3 py-1 rounded-full text-sm font-medium">
+                        Dupa
+                    </span>
+                </div>
             </div>
-        </div>
-        
-        <!-- Upload section -->
-        <div class="space-y-4 mb-24">
-            <label class="block w-full">
-                <span class="sr-only">Choose file</span>
-                <input type="file" 
-                       id="imageInput" 
-                       accept="image/*" 
-                       class="
-                       mt-[72px]
-                       block w-full text-sm text-gray-500
-                              file:mr-4 file:py-2 file:px-4
-                              file:rounded-full file:border-0
-                              file:text-sm file:font-semibold
-                              file:bg-blue-100 file:opacity-75 file:text-blue-700
-                              hover:file:bg-blue-100 hover:file:opacity-100
-                              cursor-pointer
-                              bg-blue-50 rounded-lg p-2">
-            </label>
             
-            <button id="uploadBtn" 
-                    class="w-full bg-blue-500 text-white py-3 px-4 rounded-lg hover:bg-blue-600 
-                           disabled:bg-gray-400 transition-colors duration-200 font-medium
-                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                <i class="fas fa-upload mr-2"></i>
-                Incarca imaginea
-            </button>
+            <!-- Upload section -->
+            <div class="space-y-4 mb-24">
+                <label class="block w-full">
+                    <span class="sr-only">Choose file</span>
+                    <input type="file" 
+                           id="imageInput" 
+                           accept="image/*" 
+                           class="
+                           mt-[72px]
+                           block w-full text-sm text-gray-500
+                                  file:mr-4 file:py-2 file:px-4
+                                  file:rounded-full file:border-0
+                                  file:text-sm file:font-semibold
+                                  file:bg-blue-100 file:opacity-75 file:text-blue-700
+                                  hover:file:bg-blue-100 hover:file:opacity-100
+                                  cursor-pointer
+                                  bg-blue-50 rounded-lg p-2">
+                </label>
+                
+                <button id="uploadBtn" 
+                        class="w-full bg-blue-500 text-white py-3 px-4 rounded-lg hover:bg-blue-600 
+                               disabled:bg-gray-400 transition-colors duration-200 font-medium
+                               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                    <i class="fas fa-upload mr-2"></i>
+                    Incarca imaginea
+                </button>
+            </div>
         </div>
 
-        <!-- Result section -->
-        <div id="resultContainer" class="hidden mt-4 relative space-y-4">
+        <!-- Result section - Modified -->
+        <div id="resultContainer" class="hidden space-y-4">
             <canvas id="finalCanvas" class="w-full rounded-lg shadow-md"></canvas>
-            <button id="downloadBtn" 
-                    class="w-full bg-purple-500 text-white py-3 px-4 rounded-lg hover:bg-purple-600 
-                           transition-colors duration-200 font-medium
-                           focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
-                <i class="fas fa-download mr-2"></i>
-                Descarca imaginea
-            </button>
+            <div class="flex gap-4">
+                <button id="downloadBtn" 
+                        class="flex-1 bg-purple-500 text-white py-3 px-4 rounded-lg hover:bg-purple-600 
+                               transition-colors duration-200 font-medium
+                               focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+                    <i class="fas fa-download mr-2"></i>
+                    Descarca imaginea
+                </button>
+                <button id="resetBtn" 
+                        class="flex-1 bg-gray-500 text-white py-3 px-4 rounded-lg hover:bg-gray-600 
+                               transition-colors duration-200 font-medium
+                               focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                    <i class="fas fa-redo mr-2"></i>
+                    Incearca alta
+                </button>
+            </div>
         </div>
 
         <!-- Attribution -->
