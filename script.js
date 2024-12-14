@@ -69,8 +69,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         // Set the crop box to the calculated dimensions
                         cropper.setCropBoxData({
-                            left: left,
-                            top: top,
                             width: cropBoxWidth,
                             height: cropBoxHeight
                         });
