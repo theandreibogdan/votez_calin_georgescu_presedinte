@@ -51,16 +51,28 @@ document.addEventListener('DOMContentLoaded', function() {
                         const imageData = cropper.getImageData();
                         const minDimension = Math.min(imageData.width, imageData.height);
                         
-                        // Calculate the initial crop box position
-                        const left = (imageData.width - minDimension) / 2;
-                        const top = (imageData.height - minDimension) / 2;
+                        // Calculate crop box size based on image orientation
+                        let cropBoxWidth, cropBoxHeight;
+                        if (imageData.height > imageData.width) {
+                            // Portrait orientation
+                            cropBoxWidth = imageData.width;
+                            cropBoxHeight = imageData.width;
+                        } else {
+                            // Landscape or square orientation
+                            cropBoxWidth = imageData.height;
+                            cropBoxHeight = imageData.height;
+                        }
                         
-                        // Set the crop box to be a square with the maximum possible size
+                        // Calculate the initial crop box position to center it
+                        const left = (imageData.width - cropBoxWidth) / 2;
+                        const top = (imageData.height - cropBoxHeight) / 2;
+                        
+                        // Set the crop box to the calculated dimensions
                         cropper.setCropBoxData({
                             left: left,
                             top: top,
-                            width: minDimension,
-                            height: minDimension
+                            width: cropBoxWidth,
+                            height: cropBoxHeight
                         });
                     }
                 });
